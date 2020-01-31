@@ -4,11 +4,13 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 trait ApiResponser
 {
     private function successResponse($data, $code)
     {
+        $data = $this->cacheResponse($data);
         return response()->json($data, $code);
     }
 
@@ -32,5 +34,20 @@ trait ApiResponser
     protected function showOne(Model $model, $code = 200)
     {
         return $this->successResponse($model, $code);
+    }
+
+    protected function cacheResponse($data)
+    {
+        $url = request()->url();
+        $queryParams = request()->query();
+
+        ksort($queryParams);
+
+        $queryString = http_build_query($queryParams);
+        $fullUrl = $url."?".$queryString;
+
+        return Cache::remember($fullUrl, $ttl=30, function () use ($data) {
+            return $data;
+        });
     }
 }
