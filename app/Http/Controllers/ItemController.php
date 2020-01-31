@@ -2,30 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
 use Illuminate\Http\Request;
 
-class ItemController extends Controller
+class ItemController extends ApiController
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
      * @param  mixed  $item
      * @return \Illuminate\Http\Response
      */
-    public function show($item)
+    public function show(Item $item)
     {
-        //
+        return $this->showOne($item);
     }
 
     /**
@@ -35,9 +25,19 @@ class ItemController extends Controller
      * @param  mixed  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $item)
+    public function update(Request $request, Item $item)
     {
-        //
+        $item->fill($request->only([
+            'field',
+        ]));
+
+        if ($item->isClean()) {
+            return $this->errorResponse('You need to specify a different value to update', 422);
+        }
+
+        $item->save();
+
+        return $this->showOne($item);
     }
 
     /**
@@ -46,8 +46,23 @@ class ItemController extends Controller
      * @param  mixed  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy($item)
+    public function destroy(Item $item)
     {
-        //
+        // if($item['has_children'])
+        // $this->recursive_destroy($item, $parent_id = 0)
+
+        $item->delete();
     }
+
+    // private function recursive_destroy($item, $parent_id = 0){
+    //     $items_return = [];
+    //     $items = $item->where('parent_id', '=', $item);
+    //     foreach ($items as $item) {
+    //         $items_return[] = $item;
+    //         if($item['has_children'])
+    //             $items_return[sizeof($items_return)-1]["children"] = $this->recursive_index($menu, $item["id"]);
+    //     }
+
+    //     return $items_return;
+    // }
 }
