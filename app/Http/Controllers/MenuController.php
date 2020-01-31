@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class MenuController extends ApiController
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return $this->showAll(Menu::all());
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -22,7 +33,7 @@ class MenuController extends Controller
         $this->validate($request, $rules);
 
         $menu = Menu::create($request->all());
-        return response()->json($menu, 201);
+        return $this->showOne($menu, 201);
     }
 
     /**
@@ -31,9 +42,9 @@ class MenuController extends Controller
      * @param  mixed  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show($menu)
+    public function show(Menu $menu)
     {
-        //
+        return $this->showOne($menu);
     }
 
     /**
@@ -43,7 +54,7 @@ class MenuController extends Controller
      * @param  mixed  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $menu)
+    public function update(JsonResponse $request, $menu)
     {
         //
     }
