@@ -16,7 +16,11 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            //
+            $table->bigInteger('menu_id')->unsigned();
+            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
+
+            $table->string('field');
+            $table->integer('parent')->unsigned()->default(0);
 
             $table->timestamps();
         });

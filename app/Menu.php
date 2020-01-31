@@ -17,4 +17,9 @@ class Menu extends Model
         'max_depth',
         'max_children'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }
