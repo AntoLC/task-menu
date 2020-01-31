@@ -1,527 +1,61 @@
 # Menu manager
 
 
-## Table of Contents
-- [Task description](#task-description)
-- [Routes](#routes)
-- [Bonus points](#bonus-points)
+## Getting Started
 
-
-## Task Description
-
-Fork or Download this repository and implement the logic to manage a menu.
-
-A Menu has a depth of **N** and maximum number of items per layer **M**. Consider **N** and **M** to be dynamic for bonus points.
-
-It should be possible to manage the menu by sending API requests. Do not implement a frontend for this task.
-
-Feel free to add comments or considerations when submitting the response at the end of the `README`.
-
-## Considerations
-
-Fork this repository and return a public git link, to present the task.
-
-Git history will be reviewed aswell as part of this task.
-
-If you don't have time to implement a part of the system but you know how, try create the placeholder and write comments with the intended behaviour.
-
-
-### Example menu
-
-* Home
-    * Home sub1
-        * Home sub sub
-            * [N] 
-    * Home sub2
-    * [M]
-* About
-* [M]
-
-
-## Routes
-
-
-### `POST /menus`
-
-Create a menu.
-
-
-#### Input
-
-```json
-{
-    "field": "value"
-}
+You can configure the environnement by editing .env, as it is now it is working: 
+```
+./.env
 ```
 
-
-##### Bonus
-
-```json
-{
-    "field": "value",
-    "max_depth": 5,
-    "max_children": 5
-}
+Just Run:
+```
+docker-compose up --build
 ```
 
+Laravel Endpoints: http://localhost:2500
 
-#### Output
+PHPMyAdmin: http://localhost:2502
 
-```json
-{
-    "field": "value"
-}
+## Endpoints Done
+
+```
++--------+-----------+---------------------------------+-------------------+-----------------------------------------------------+------------+
+|        | POST      | api/items                       | items.store       | App\Http\Controllers\ItemController@store           | api        |
+|        | DELETE    | api/items/{item}                | items.destroy     | App\Http\Controllers\ItemController@destroy         | api        |
+|        | PUT|PATCH | api/items/{item}                | items.update      | App\Http\Controllers\ItemController@update          | api        |
+|        | GET|HEAD  | api/items/{item}                | items.show        | App\Http\Controllers\ItemController@show            | api        |
+|        | DELETE    | api/items/{item}/children       |                   | App\Http\Controllers\ItemChildrenController@destroy | api        |
+|        | GET|HEAD  | api/items/{item}/children       |                   | App\Http\Controllers\ItemChildrenController@show    | api        |
+|        | POST      | api/items/{item}/children       |                   | App\Http\Controllers\ItemChildrenController@store   | api        |
+|        | GET|HEAD  | api/menus                       | menus.index       | App\Http\Controllers\MenuController@index           | api        |
+|        | POST      | api/menus                       | menus.store       | App\Http\Controllers\MenuController@store           | api        |
+|        | DELETE    | api/menus/{menu}                | menus.destroy     | App\Http\Controllers\MenuController@destroy         | api        |
+|        | PUT|PATCH | api/menus/{menu}                | menus.update      | App\Http\Controllers\MenuController@update          | api        |
+|        | GET|HEAD  | api/menus/{menu}                | menus.show        | App\Http\Controllers\MenuController@show            | api        |
+|        | DELETE    | api/menus/{menu}/items          |                   | App\Http\Controllers\MenuItemController@destroy     | api        |
+|        | POST      | api/menus/{menu}/items          | menus.items.store | App\Http\Controllers\MenuItemController@store       | api        |
+|        | GET|HEAD  | api/menus/{menu}/items          | menus.items.index | App\Http\Controllers\MenuItemController@index       | api        |
++--------+-----------+---------------------------------+-------------------+-----------------------------------------------------+------------+
 ```
 
+## Time up... With more time I would have made:
 
-##### Bonus
-
-```json
-{
-    "field": "value",
-    "max_depth": 5,
-    "max_children": 5
-}
+```
+/menus/{menu}/layers/{layer} 
+/menus/{menu}/depth
 ```
 
+I didn't implement tests, but I know how to use it, I would have tested the endpoint in ```tests/Feature``` folder, and use ```.env.testing```.
 
-### `GET /menus/{menu}`
+PhpCS | PhpCsFixer | PhpStan are installed but I didn't have the times to use them.
 
-Get the menu.
+I would have made a better documentation as well.
 
+## 10 vs 1.000.000 menu items - what would you do differently?
 
-#### Output
+Pagination
 
-```json
-{
-    "field": "value"
-}
-```
+Search Query
 
-
-##### Bonus
-
-```json
-{
-    "field": "value",
-    "max_depth": 5,
-    "max_children": 5
-}
-```
-
-
-### `PUT|PATCH /menus/{menu}`
-
-Update the menu.
-
-
-#### Input
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-##### Bonus
-
-```json
-{
-    "field": "value",
-    "max_depth": 5,
-    "max_children": 5
-}
-```
-
-
-#### Output
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-##### Bonus
-
-```json
-{
-    "field": "value",
-    "max_depth": 5,
-    "max_children": 5
-}
-```
-
-
-### `DELETE /menus/{menu}`
-
-Delete the menu.
-
-
-### `POST /menus/{menu}/items`
-
-Create menu items.
-
-
-#### Input
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-#### Output
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-### `GET /menus/{menu}/items`
-
-Get all menu items.
-
-
-#### Output
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-### `DELETE /menus/{menu}/items`
-
-Remove all menu items.
-
-
-### `POST /items`
-
-Create an item.
-
-
-#### Input
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-#### Output
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-### `GET /items/{item}`
-
-Get the item.
-
-
-#### Output
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-### `PUT|PATCH /items/{item}`
-
-Update the item.
-
-
-#### Input
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-#### Output
-
-```json
-{
-    "field": "value"
-}
-```
-
-
-### `DELETE /items/{item}`
-
-Delete the item.
-
-
-### `POST /items/{item}/children`
-
-Create item's children.
-
-
-#### Input
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-#### Output
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-### `GET /items/{item}/children`
-
-Get all item's children.
-
-
-#### Output
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-##### Bonus
-
-```json
-[
-    {
-        "field": "value",
-        "children": [
-            {
-                "field": "value",
-                "children": []
-            },
-            {
-                "field": "value"
-            }
-        ]
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-### `DELETE /items/{item}/children`
-
-Remove all children.
-
-
-### `GET /menus/{menu}/layers/{layer}`
-
-Get all menu items in a layer.
-
-
-#### Output
-
-```json
-[
-    {
-        "field": "value"
-    },
-    {
-        "field": "value"
-    }
-]
-```
-
-
-### `DELETE /menus/{menu}/layers/{layer}`
-
-Remove a layer and relink `layer + 1` with `layer - 1`, to avoid dangling data.
-
-
-### `GET /menus/{menu}/depth`
-
-
-#### Output
-
-Get depth of menu.
-
-```json
-{
-    "depth": 5
-}
-```
-
-
-## Bonus points
-
-* 10 vs 1.000.000 menu items - what would you do differently?
-* Write documentation
-* Use PhpCS | PhpCsFixer | PhpStan
-* Use cache
-* Use data structures
-* Use docker
-* Implement tests
+Trie node to research data? (https://en.wikipedia.org/wiki/Trie)
