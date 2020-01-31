@@ -13,9 +13,14 @@ Route::resource('menus', 'MenuController');
 // Route::patch('/menus/{menu}', 'MenuController@update');
 // Route::delete('/menus/{menu}', 'MenuController@destroy');
 
-Route::post('/menus/{menu}/items', 'MenuItemController@store');
-Route::get('/menus/{menu}/items', 'MenuItemController@show');
+Route::resource('menus.items', 'MenuItemController')->only([
+    'index', 'store'
+]);
 Route::delete('/menus/{menu}/items', 'MenuItemController@destroy');
+
+// Route::post('/menus/{menu}/items', 'MenuItemController@store');
+// Route::get('/menus/{menu}/items', 'MenuItemController@show');
+// Route::delete('/menus/{menu}/items', 'MenuItemController@destroy');
 
 Route::get('/menus/{menu}/layers/{layer}', 'MenuLayerController@show');
 Route::delete('/menus/{menu}/layers/{layer}', 'MenuLayerController@destroy');

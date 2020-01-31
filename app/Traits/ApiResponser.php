@@ -26,11 +26,11 @@ trait ApiResponser
 
     protected function showAll(Collection $collection, $code = 200)
     {
-        return $this->successResponse(['data' => $collection], $code);
+        return $this->successResponse($collection, $code);
     }
 
     protected function showOne(Model $model, $code = 200)
     {
-        return $this->successResponse(['data' => $model], $code);
+        return $this->successResponse($model, $code);
     }
 }

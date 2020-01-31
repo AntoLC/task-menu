@@ -20,7 +20,8 @@ class CreateItemsTable extends Migration
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
 
             $table->string('field');
-            $table->integer('parent')->unsigned()->default(0);
+            $table->integer('parent_id')->unsigned()->default(0);
+            $table->integer('has_children')->unsigned()->default(0);
 
             $table->timestamps();
         });
