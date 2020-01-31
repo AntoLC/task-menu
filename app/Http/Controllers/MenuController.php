@@ -80,6 +80,7 @@ class MenuController extends ApiController
      */
     public function destroy(Menu $menu)
     {
-        //
+        $menu->delete();
+        return $this->showOne($menu);
     }
 }
