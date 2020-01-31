@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Menu;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -14,7 +15,14 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'field' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $menu = Menu::create($request->all());
+        return response()->json($menu, 201);
     }
 
     /**
