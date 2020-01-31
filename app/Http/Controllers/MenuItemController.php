@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\Menu;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Traits\ItemChildren;
+
 
 class MenuItemController extends ApiController
 {
+    use ItemChildren;
+
     /**
      * Display a listing of the resource.
      *
@@ -45,29 +48,6 @@ class MenuItemController extends ApiController
         $items = $this->recursive_store($data, $menu->id);
         
         return $this->showAll(collect($items));
-    }
-
-    private function recursive_store($items_store, $menu_id, $parent = null){
-        $items = [];
-        foreach ($items_store as $item_store) {
-            $item = [];
-            $item['field']   = $item_store->field;
-            $item['menu_id'] = $menu_id;
-
-            if($parent)
-                $item['parent_id'] = $parent;
-
-            if(isset($item_store->children) && sizeof($item_store->children))
-                $item['has_children'] = 1;
-
-            $item = Item::create($item);
-            $items[] = $item;
-
-            if(isset($item_store->children) && sizeof($item_store->children))
-                $items[sizeof($items)-1]["children"] = $this->recursive_store($item_store->children, $menu_id, $item->id);
-        }
-
-        return $items;
     }
 
     /**

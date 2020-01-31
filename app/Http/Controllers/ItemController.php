@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\Menu;
 use Illuminate\Http\Request;
+use App\Traits\ItemChildren;
 
 class ItemController extends ApiController
 {
+    use ItemChildren;
+
     /**
      * Store a newly created resource in storage.
      *
@@ -76,24 +79,6 @@ class ItemController extends ApiController
      */
     public function destroy(Item $item)
     {
-        // if($item['has_children'])
-        // $this->recursive_destroy($item, $parent_id = 0)
-
-        $item->delete();
+        $this->recursive_destroy($item);
     }
-
-    /**
-     * I will have implemented recursive destroy
-     */
-    // private function recursive_destroy($item, $parent_id = 0){
-    //     $items_return = [];
-    //     $items = $item->where('parent_id', '=', $item);
-    //     foreach ($items as $item) {
-    //         $items_return[] = $item;
-    //         if($item['has_children'])
-    //             $items_return[sizeof($items_return)-1]["children"] = $this->recursive_index($menu, $item["id"]);
-    //     }
-
-    //     return $items_return;
-    // }
 }
