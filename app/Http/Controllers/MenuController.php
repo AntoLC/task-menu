@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Menu;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MenuController extends ApiController
 {
@@ -39,7 +40,7 @@ class MenuController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  mixed  $menu
+     * @param Menu $menu
      * @return \Illuminate\Http\Response
      */
     public function show(Menu $menu)
@@ -51,21 +52,33 @@ class MenuController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $menu
+     * @param Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(JsonResponse $request, $menu)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        $menu->fill($request->only([
+            'field',
+            'max_depth',
+            'max_children'
+        ]));
+
+        if ($menu->isClean()) {
+            return $this->errorResponse('You need to specify a different value to update', 422);
+        }
+
+        $menu->save();
+
+        return $this->showOne($menu);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $menu
+     * @param Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu)
+    public function destroy(Menu $menu)
     {
         //
     }
