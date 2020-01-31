@@ -19,7 +19,7 @@ Route::resource('menus.items', 'MenuItemController')->only([
 Route::delete('/menus/{menu}/items', 'MenuItemController@destroy');
 
 Route::resource('items', 'ItemController')->except([
-    'index', 'store'
+    'index'
 ]);
 
 // Route::post('/menus/{menu}/items', 'MenuItemController@store');

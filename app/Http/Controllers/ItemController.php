@@ -3,10 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\Menu;
 use Illuminate\Http\Request;
 
 class ItemController extends ApiController
 {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $rules = [
+            'field' => 'required',
+            'menu_id' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $menu = Menu::where('id', '=', $request->menu_id)->first();
+        if (! $menu) {
+            return $this->errorResponse("This is menu doesn't exist.", 404);
+        }
+
+        $item = Item::create([
+            'field'  => $request->field,
+            'menu_id'   => $request->menu_id,
+        ]);
+        return $this->showOne($item, 201);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -54,6 +82,9 @@ class ItemController extends ApiController
         $item->delete();
     }
 
+    /**
+     * I will have implemented recursive destroy
+     */
     // private function recursive_destroy($item, $parent_id = 0){
     //     $items_return = [];
     //     $items = $item->where('parent_id', '=', $item);
